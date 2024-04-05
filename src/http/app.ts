@@ -1,7 +1,8 @@
 import fastify from 'fastify'
+import { usersRoutes } from './controllers/users/route'
 
 export const app = fastify()
 
-app.get('/', (request, reply) => {
-  return reply.status(200).send({ hello: 'world' })
+app.register(usersRoutes, {
+  prefix: '/users',
 })
