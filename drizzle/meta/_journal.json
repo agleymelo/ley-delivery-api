@@ -8,6 +8,13 @@
       "when": 1712344125535,
       "tag": "0000_overconfident_thunderbolt",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1712354527355,
+      "tag": "0001_rare_stardust",
+      "breakpoints": true
     }
   ]
 }

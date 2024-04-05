@@ -11,11 +11,11 @@ export async function update(request: FastifyRequest, reply: FastifyReply) {
   })
 
   const updateUserBodySchema = z.object({
-    name: z.string(),
+    name: z.string().optional(),
     phone: z.string().optional(),
     email: z.string().email(),
-    password: z.string(),
-    oldPassword: z.string(),
+    password: z.string().optional(),
+    oldPassword: z.string().optional(),
   })
 
   const { userId } = updateUserParamsSchema.parse(request.params)

@@ -18,7 +18,7 @@ export async function profile(request: FastifyRequest, reply: FastifyReply) {
       userId,
     })
 
-    return reply.status(200).send({ user })
+    return reply.status(200).send({ user: { ...user, password_hash: null } })
   } catch (err) {
     if (err instanceof ResourceNotFoundError) {
       return reply.status(404).send({ message: err.message })

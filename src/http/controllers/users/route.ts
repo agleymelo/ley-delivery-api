@@ -9,7 +9,7 @@ import { remove } from './remove'
 export async function usersRoutes(app: FastifyInstance) {
   app.post('/register', create)
 
-  app.get('/profile', profile)
-  app.put('/userId', update)
-  app.delete('/userId', remove)
+  app.get('/profile/:userId', profile)
+  app.put('/:userId', update)
+  app.delete('/:userId', remove)
 }
