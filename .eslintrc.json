@@ -1,0 +1,8 @@
+{
+  "extends": ["@rocketseat/eslint-config/node", "plugin:drizzle/all"],
+  "plugins": ["drizzle"],
+  "rules": {
+    "drizzle/enforce-delete-with-where": "error",
+    "drizzle/enforce-update-with-where": "error"
+  }
+}
