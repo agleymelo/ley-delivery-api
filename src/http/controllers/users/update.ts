@@ -6,10 +6,6 @@ import { makeUpdateUserProfileUseCase } from '../../../use-cases/users/factory/m
 import { OldPasswordIsRequiredError } from '../../../use-cases/errors/old-password-is-required-error'
 
 export async function update(request: FastifyRequest, reply: FastifyReply) {
-  const updateUserParamsSchema = z.object({
-    userId: z.string(),
-  })
-
   const updateUserBodySchema = z.object({
     name: z.string().optional(),
     phone: z.string().optional(),
@@ -18,7 +14,7 @@ export async function update(request: FastifyRequest, reply: FastifyReply) {
     oldPassword: z.string().optional(),
   })
 
-  const { userId } = updateUserParamsSchema.parse(request.params)
+  const userId = request.user.sub
   const { name, email, phone, password, oldPassword } =
     updateUserBodySchema.parse(request.body)
 
