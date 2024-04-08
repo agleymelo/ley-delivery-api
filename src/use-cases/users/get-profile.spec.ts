@@ -1,16 +1,16 @@
 import { describe, beforeEach, it, expect } from 'vitest'
 
-import { UsersRepositoryInMemory } from '../../repositories/in-memory/users-repository-in-memory'
+import { InMemoryUsersRepository } from '../../repositories/in-memory/in-memory-users-repository'
 import { ResourceNotFoundError } from '../errors/resource-not-found-error'
 
 import { GetProfileUseCase } from './get-profile-use-case'
 
-let usersRepository: UsersRepositoryInMemory
+let usersRepository: InMemoryUsersRepository
 let sut: GetProfileUseCase
 
 describe('Get Profile Use Case', () => {
   beforeEach(() => {
-    usersRepository = new UsersRepositoryInMemory()
+    usersRepository = new InMemoryUsersRepository()
     sut = new GetProfileUseCase(usersRepository)
   })
 

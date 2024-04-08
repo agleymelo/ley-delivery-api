@@ -1,18 +1,18 @@
 import { describe, beforeEach, it, expect } from 'vitest'
 
-import { UsersRepositoryInMemory } from '../../repositories/in-memory/users-repository-in-memory'
+import { InMemoryUsersRepository } from '../../repositories/in-memory/in-memory-users-repository'
 import { UserAlreadyExistsError } from '../errors/user-already-exists-error'
 import { UpdateUserProfileUseCase } from './update-user-profile-use-case'
 import { compare, hash } from 'bcrypt'
 import { OldPasswordIsRequiredError } from '../errors/old-password-is-required-error'
 import { ResourceNotFoundError } from '../errors/resource-not-found-error'
 
-let usersRepository: UsersRepositoryInMemory
+let usersRepository: InMemoryUsersRepository
 let sut: UpdateUserProfileUseCase
 
 describe('Update User Profile Use Case', () => {
   beforeEach(() => {
-    usersRepository = new UsersRepositoryInMemory()
+    usersRepository = new InMemoryUsersRepository()
     sut = new UpdateUserProfileUseCase(usersRepository)
   })
 

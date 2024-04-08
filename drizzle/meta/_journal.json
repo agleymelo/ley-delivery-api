@@ -15,6 +15,13 @@
       "when": 1712354527355,
       "tag": "0001_rare_stardust",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1712592805866,
+      "tag": "0002_pale_richard_fisk",
+      "breakpoints": true
     }
   ]
 }

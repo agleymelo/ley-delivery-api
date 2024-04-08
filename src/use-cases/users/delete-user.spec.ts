@@ -1,16 +1,16 @@
 import { describe, beforeEach, it, expect } from 'vitest'
 
-import { UsersRepositoryInMemory } from '../../repositories/in-memory/users-repository-in-memory'
+import { InMemoryUsersRepository } from '../../repositories/in-memory/in-memory-users-repository'
 import { ResourceNotFoundError } from '../errors/resource-not-found-error'
 
 import { DeleteUserUseCase } from './delete-user-use-case'
 
-let usersRepository: UsersRepositoryInMemory
+let usersRepository: InMemoryUsersRepository
 let sut: DeleteUserUseCase
 
 describe('Delete User Use Case', () => {
   beforeEach(() => {
-    usersRepository = new UsersRepositoryInMemory()
+    usersRepository = new InMemoryUsersRepository()
     sut = new DeleteUserUseCase(usersRepository)
   })
 

@@ -5,7 +5,7 @@ import type { User } from '../../dtos/users/user'
 
 import type { UsersRepository } from '../repository/users-repository'
 
-export class UsersRepositoryInMemory implements UsersRepository {
+export class InMemoryUsersRepository implements UsersRepository {
   public items: User[] = []
 
   async findById(id: string): Promise<User | null> {
