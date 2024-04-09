@@ -44,7 +44,7 @@ const [customer_two] = await db
   .returning()
 
 // create admin
-const [admin] = await db
+await db
   .insert(users)
   .values({
     name: 'Admin',

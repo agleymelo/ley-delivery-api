@@ -7,6 +7,7 @@ import { env } from '../env/env'
 import { usersRoutes } from './controllers/users/route'
 import { categoriesRoutes } from './controllers/categories/route'
 import { ZodError } from 'zod'
+import { ordersRoutes } from './controllers/orders'
 
 export const app = fastify()
 
@@ -22,6 +23,10 @@ app.register(usersRoutes, {
 
 app.register(categoriesRoutes, {
   prefix: '/categories',
+})
+
+app.register(ordersRoutes, {
+  prefix: '/orders',
 })
 
 app.setErrorHandler((error, _, reply) => {
