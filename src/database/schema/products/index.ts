@@ -3,6 +3,7 @@ import { integer, pgTable, text, timestamp } from 'drizzle-orm/pg-core'
 import { relations } from 'drizzle-orm'
 
 import { categories } from '../categories'
+import { orderItems } from '../order-items'
 
 export const products = pgTable('products', {
   id: text('id')
@@ -12,6 +13,7 @@ export const products = pgTable('products', {
   description: text('description'),
   priceInCents: integer('price_in_cents'),
   images: text('images').array(),
+
   categoryId: text('category_id').references(() => categories.id, {
     onDelete: 'set null',
   }),
@@ -19,12 +21,13 @@ export const products = pgTable('products', {
   updated_at: timestamp('updated_at').defaultNow(),
 })
 
-export const productsRelations = relations(products, ({ one }) => {
+export const productsRelations = relations(products, ({ one, many }) => {
   return {
     category: one(categories, {
       fields: [products.categoryId],
       references: [categories.id],
       relationName: 'order_customer',
     }),
+    orderItems: many(orderItems),
   }
 })

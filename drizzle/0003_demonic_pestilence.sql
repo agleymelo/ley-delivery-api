@@ -17,7 +17,7 @@ CREATE TABLE IF NOT EXISTS "products" (
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "orders" (
 	"id" text PRIMARY KEY NOT NULL,
-	"customer_id" text NOT NULL,
+	"customer_id" text,
 	"status" "order_status" DEFAULT 'pending' NOT NULL,
 	"total_in_cents" integer NOT NULL,
 	"created_at" timestamp DEFAULT now()
