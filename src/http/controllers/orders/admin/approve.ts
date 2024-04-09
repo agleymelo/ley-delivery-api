@@ -17,7 +17,7 @@ export async function approve(request: FastifyRequest, reply: FastifyReply) {
       orderId,
     })
 
-    return reply.status(204)
+    return reply.status(204).send()
   } catch (err) {
     if (err instanceof OrderIsNotPendingError) {
       return reply.status(404).send({ message: err.message })
