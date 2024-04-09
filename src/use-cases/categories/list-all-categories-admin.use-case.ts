@@ -16,13 +16,13 @@ export class ListAllCategoriesAdminUseCase {
     status,
     pageIndex,
   }: ListAllCategoriesAdminUseCaseResponse) {
-    const categories = await this.categoriesRepository.listAllCategories(
+    const result = await this.categoriesRepository.listAllCategories(
       id,
       name,
       status,
       pageIndex,
     )
 
-    return { categories }
+    return { result }
   }
 }

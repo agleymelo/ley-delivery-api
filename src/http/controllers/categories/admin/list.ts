@@ -7,7 +7,7 @@ export async function list(request: FastifyRequest, reply: FastifyReply) {
     id: z.optional(z.string()),
     name: z.optional(z.string()),
     status: z.optional(z.enum(['active', 'inactive', ''])),
-    pageIndex: z.optional(z.number().min(0)),
+    pageIndex: z.string().transform(Number),
   })
 
   const { id, name, status, pageIndex } =
@@ -15,12 +15,14 @@ export async function list(request: FastifyRequest, reply: FastifyReply) {
 
   const listAllCategoriesAdminUseCase = makeListAllCategoriesAdminUseCase()
 
-  const { categories } = await listAllCategoriesAdminUseCase.execute({
+  const { result } = await listAllCategoriesAdminUseCase.execute({
     id: id ?? '',
     name: name ?? '',
     status: status ?? '',
     pageIndex: pageIndex ?? 0,
   })
 
-  return reply.status(200).send({ categories })
+  return reply
+    .status(200)
+    .send({ categories: result.categories, meta: result.meta })
 }

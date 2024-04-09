@@ -14,9 +14,9 @@ export async function show(request: FastifyRequest, reply: FastifyReply) {
   try {
     const showCategoryUseCase = makeShowCategoryUseCase()
 
-    await showCategoryUseCase.execute({ id: categoryId })
+    const { category } = await showCategoryUseCase.execute({ id: categoryId })
 
-    return reply.status(201).send()
+    return reply.status(201).send({ category })
   } catch (err) {
     if (err instanceof ResourceNotFoundError) {
       return reply.status(404).send({ message: err.message })

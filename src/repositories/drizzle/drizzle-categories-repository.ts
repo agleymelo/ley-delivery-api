@@ -27,9 +27,6 @@ export class DrizzleCategoriesRepository implements CategoriesRepository {
         .where(
           and(
             id ? eq(categories.id, id) : undefined,
-            // active ? eq(categories.active, active) : undefined,
-            // eq(categories.active, active),
-            // eq(categories.id, id!),
             name ? ilike(categories.name, `%${name}%`) : undefined,
             status ? eq(categories.status, status) : undefined,
           ),
