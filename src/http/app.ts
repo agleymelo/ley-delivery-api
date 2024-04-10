@@ -1,19 +1,33 @@
 import fastify from 'fastify'
-import fastifyJwt from '@fastify/jwt'
 import fastifyCors from '@fastify/cors'
+import fastifyJwt from '@fastify/jwt'
+import fastifyStaticFile from '@fastify/static'
+import multer from 'fastify-multer'
+
+import { join } from 'node:path'
 
 import { env } from '../env/env'
 
-import { usersRoutes } from './controllers/users/route'
-import { categoriesRoutes } from './controllers/categories/route'
 import { ZodError } from 'zod'
+import { categoriesRoutes } from './controllers/categories/route'
+import { ordersRoutes } from './controllers/orders'
+import { productsRoutes } from './controllers/products/route'
+import { usersRoutes } from './controllers/users/route'
+import { UPLOADS_FOLDER } from '../config/upload'
 
 export const app = fastify()
 
 app.register(fastifyCors)
 
+app.register(multer.contentParser)
+
 app.register(fastifyJwt, {
   secret: env.AUTH_SECRET,
+})
+
+app.register(fastifyStaticFile, {
+  root: join(UPLOADS_FOLDER),
+  prefix: '/public/',
 })
 
 app.register(usersRoutes, {
@@ -22,6 +36,14 @@ app.register(usersRoutes, {
 
 app.register(categoriesRoutes, {
   prefix: '/categories',
+})
+
+app.register(ordersRoutes, {
+  prefix: '/orders',
+})
+
+app.register(productsRoutes, {
+  prefix: '/products',
 })
 
 app.setErrorHandler((error, _, reply) => {

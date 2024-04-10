@@ -1,6 +1,7 @@
 import type { FastifyReply, FastifyRequest } from 'fastify'
-import { makeListAllCategoriesAdminUseCase } from '../../../../use-cases/categories/factory/make-list-all-categories-admin-use-case'
 import { z } from 'zod'
+
+import { makeListAllCategoriesAdminUseCase } from '../../../../use-cases/categories/factory/make-list-all-categories-admin-use-case'
 
 export async function list(request: FastifyRequest, reply: FastifyReply) {
   const listAllCategoriesAdminQuerySchema = z.object({
