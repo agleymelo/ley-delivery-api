@@ -1,4 +1,4 @@
-import { count, eq } from 'drizzle-orm'
+import { and, count, eq, ilike } from 'drizzle-orm'
 
 import { db } from '../../database/connection'
 import { products } from '../../database/schema'
@@ -6,10 +6,10 @@ import type { CreateProductInput } from '../../dtos/products/create-product-inpu
 import type { Product } from '../../dtos/products/Product'
 import type {
   ListAllProductsReply,
-  ProductRepository,
+  ProductsRepository,
 } from '../repository/products-repository'
 
-export class DrizzleProductsRepository implements ProductRepository {
+export class DrizzleProductsRepository implements ProductsRepository {
   async listAllProducts(
     categoryId: string | undefined,
     pageIndex: number,
@@ -20,6 +20,36 @@ export class DrizzleProductsRepository implements ProductRepository {
         .select()
         .from(products)
         .where(categoryId ? eq(products.categoryId, categoryId) : undefined)
+        .limit(10)
+        .offset(pageIndex * 10),
+    ])
+
+    return {
+      products: allProducts as Product[],
+      meta: {
+        pageIndex,
+        perPage: 10,
+        total: amountOfProducts,
+      },
+    }
+  }
+
+  async getAllProducts(
+    productId: string | undefined,
+    name: string | undefined,
+    pageIndex: number,
+  ): Promise<ListAllProductsReply> {
+    const [[{ count: amountOfProducts }], allProducts] = await Promise.all([
+      db.select({ count: count() }).from(products),
+      db
+        .select()
+        .from(products)
+        .where(
+          and(
+            productId ? eq(products.id, productId) : undefined,
+            name ? ilike(products.name, `%${name}%`) : undefined,
+          ),
+        )
         .limit(10)
         .offset(pageIndex * 10),
     ])

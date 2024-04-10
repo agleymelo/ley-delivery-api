@@ -1,4 +1,4 @@
-import type { ProductRepository } from '../../../repositories/repository/products-repository'
+import type { ProductsRepository } from '../../../repositories/repository/products-repository'
 import { ResourceNotFoundError } from '../../errors/resource-not-found-error'
 
 type ShowProductUseCaseResponse = {
@@ -6,7 +6,7 @@ type ShowProductUseCaseResponse = {
 }
 
 export class ShowProductUseCase {
-  constructor(private productsRepository: ProductRepository) {}
+  constructor(private productsRepository: ProductsRepository) {}
 
   async execute({ productId }: ShowProductUseCaseResponse) {
     const product = await this.productsRepository.findProductById(productId)

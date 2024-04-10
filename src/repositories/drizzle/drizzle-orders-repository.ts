@@ -1,4 +1,4 @@
-import { and, count, eq, getTableColumns, ilike } from 'drizzle-orm'
+import { and, count, desc, eq, getTableColumns, ilike, sql } from 'drizzle-orm'
 
 import { db } from '../../database/connection'
 import { orders, users } from '../../database/schema'
@@ -168,10 +168,16 @@ export class DrizzleOrdersRepository implements OrdersRepository {
       total: number
     }
   }> {
-    const orderTableColumns = getTableColumns(orders)
+    // const orderTableColumns = getTableColumns(orders)
 
     const baseQuery = db
-      .select(orderTableColumns)
+      .select({
+        orderId: orders.id,
+        created_at: orders.created_at,
+        status: orders.status,
+        total: orders.totalInCents,
+        customerName: users.name,
+      })
       .from(orders)
       .innerJoin(users, eq(users.id, orders.customerId))
       .where(
@@ -188,7 +194,19 @@ export class DrizzleOrdersRepository implements OrdersRepository {
         .select()
         .from(baseQuery.as('baseQuery'))
         .offset(pageIndex * 10)
-        .limit(10),
+        .limit(10)
+        .orderBy((fields) => {
+          return [
+            sql`CASE ${fields.status}
+              WHEN 'pending' THEN 1
+              WHEN 'processing' THEN 2
+              WHEN 'delivering' THEN 3
+              WHEN 'delivered' THEN 4
+              WHEN 'cancelled' THEN 99
+            END`,
+            desc(fields.created_at),
+          ]
+        }),
     ])
 
     const { count: amountOfOrders } = amountOfOrdersQuery[0]

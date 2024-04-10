@@ -10,7 +10,13 @@ export interface ListAllProductsReply {
   }
 }
 
-export interface ProductRepository {
+export type GetAllProducts = ListAllProductsReply
+export interface ProductsRepository {
+  getAllProducts(
+    productId: string | undefined,
+    name: string | undefined,
+    pageIndex: number,
+  ): Promise<GetAllProducts>
   listAllProducts(
     categoryId: string | undefined,
     pageIndex: number,

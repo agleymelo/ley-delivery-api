@@ -1,24 +1,28 @@
 import type { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
 import { ResourceNotFoundError } from '../../../../use-cases/errors/resource-not-found-error'
-import { makeListProductsUseCase } from '../../../../use-cases/products/factory/make-list-products-use-case'
+import { makeGetAllProductsUseCase } from '../../../../use-cases/products/factory/make-get-all-products-use-case'
 
-export async function listProduct(
+export async function getAllProducts(
   request: FastifyRequest,
   reply: FastifyReply,
 ) {
   const listProductParamsSchema = z.object({
-    categoryId: z.string().optional(),
-    pageIndex: z.number(),
+    productId: z.optional(z.string()),
+    name: z.optional(z.string()),
+    pageIndex: z.string().transform(Number),
   })
 
-  const { categoryId, pageIndex } = listProductParamsSchema.parse(request.query)
+  const { productId, name, pageIndex } = listProductParamsSchema.parse(
+    request.query,
+  )
 
   try {
-    const listProductsUseCase = makeListProductsUseCase()
+    const getAllProductsUseCase = makeGetAllProductsUseCase()
 
-    const { result } = await listProductsUseCase.execute({
-      categoryId,
+    const { result } = await getAllProductsUseCase.execute({
+      productId,
+      name,
       pageIndex,
     })
 

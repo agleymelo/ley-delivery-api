@@ -1,4 +1,4 @@
-import type { ProductRepository } from '../../../repositories/repository/products-repository'
+import type { ProductsRepository } from '../../../repositories/repository/products-repository'
 import type { UploadFilesRepository } from '../../../repositories/repository/providers/upload-files-repository'
 import { ResourceNotFoundError } from '../../errors/resource-not-found-error'
 
@@ -9,7 +9,7 @@ type UpdatePhotoProductUseCaseResponse = {
 
 export class UpdatePhotoProductUseCase {
   constructor(
-    private productsRepository: ProductRepository,
+    private productsRepository: ProductsRepository,
     private uploadFilesRepository: UploadFilesRepository,
   ) {}
 

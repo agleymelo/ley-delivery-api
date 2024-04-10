@@ -1,4 +1,4 @@
-import type { ProductRepository } from '../../../repositories/repository/products-repository'
+import type { ProductsRepository } from '../../../repositories/repository/products-repository'
 import { ProductAlreadyExistsError } from '../../errors/product-already-exists-error'
 
 type CreateProductUseCaseResponse = {
@@ -10,7 +10,7 @@ type CreateProductUseCaseResponse = {
 }
 
 export class CreateProductUseCase {
-  constructor(private productsRepository: ProductRepository) {}
+  constructor(private productsRepository: ProductsRepository) {}
 
   async execute({
     name,
