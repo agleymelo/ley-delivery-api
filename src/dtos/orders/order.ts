@@ -1,7 +1,7 @@
 export type Order = {
   id: string
-  customerId: string
+  customerId: string | null
   status: 'pending' | 'processing' | 'delivering' | 'delivered' | 'cancelled'
   totalInCents: number
-  created_at: Date
+  created_at: Date | null
 }

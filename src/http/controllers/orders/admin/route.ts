@@ -7,9 +7,12 @@ import { approve } from './approve'
 import { cancel } from './cancel'
 import { dispatch } from './dispatch'
 import { deliver } from './deliver'
+import { getOrders } from './get-orders'
 
 export async function ordersAdminRoutes(app: FastifyInstance) {
   app.addHook('onRequest', verifyJWT)
+
+  app.get('/', { onRequest: [verifyUserRole('admin')] }, getOrders)
 
   app.patch(
     '/:orderId/approve',
