@@ -15,20 +15,25 @@ export class DrizzleProductsRepository implements ProductsRepository {
     pageIndex: number,
   ): Promise<ListAllProductsReply> {
     const [[{ count: amountOfProducts }], allProducts] = await Promise.all([
-      db.select({ count: count() }).from(products),
+      categoryId
+        ? db
+            .select({ count: count() })
+            .from(products)
+            .where(eq(products.categoryId, categoryId))
+        : db.select({ count: count() }).from(products),
       db
         .select()
         .from(products)
         .where(categoryId ? eq(products.categoryId, categoryId) : undefined)
-        .limit(10)
-        .offset(pageIndex * 10),
+        .limit(9)
+        .offset(pageIndex * 9),
     ])
 
     return {
       products: allProducts as Product[],
       meta: {
         pageIndex,
-        perPage: 10,
+        perPage: 9,
         total: amountOfProducts,
       },
     }
@@ -50,15 +55,15 @@ export class DrizzleProductsRepository implements ProductsRepository {
             name ? ilike(products.name, `%${name}%`) : undefined,
           ),
         )
-        .limit(10)
-        .offset(pageIndex * 10),
+        .limit(9)
+        .offset(pageIndex * 9),
     ])
 
     return {
       products: allProducts as Product[],
       meta: {
         pageIndex,
-        perPage: 10,
+        perPage: 9,
         total: amountOfProducts,
       },
     }

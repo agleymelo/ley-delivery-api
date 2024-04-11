@@ -14,6 +14,7 @@ import { ordersRoutes } from './controllers/orders'
 import { productsRoutes } from './controllers/products/route'
 import { usersRoutes } from './controllers/users/route'
 import { UPLOADS_FOLDER } from '../config/upload'
+import { metricsRoutes } from './controllers/metrics/route'
 
 export const app = fastify()
 
@@ -44,6 +45,10 @@ app.register(ordersRoutes, {
 
 app.register(productsRoutes, {
   prefix: '/products',
+})
+
+app.register(metricsRoutes, {
+  prefix: '/metrics/admin',
 })
 
 app.setErrorHandler((error, _, reply) => {

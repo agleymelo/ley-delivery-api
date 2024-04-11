@@ -31,8 +31,8 @@ export class DrizzleCategoriesRepository implements CategoriesRepository {
             status ? eq(categories.status, status) : undefined,
           ),
         )
-        .offset(pageIndex * 10)
-        .limit(10)
+        .offset(pageIndex * 9)
+        .limit(9)
         .orderBy(desc(categories.name)),
     ])
 
@@ -40,7 +40,7 @@ export class DrizzleCategoriesRepository implements CategoriesRepository {
       categories: allCategories,
       meta: {
         pageIndex,
-        perPage: 10,
+        perPage: 9,
         totalCount: amountOfCategories,
       },
     }

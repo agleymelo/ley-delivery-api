@@ -75,31 +75,24 @@ console.log(chalk.greenBright('Categories seeds'))
  */
 
 function generateProduct() {
-  return {
-    name: faker.commerce.productName(),
-    description: faker.commerce.productDescription(),
-    categoryId: faker.helpers.arrayElement(createdCategories).id,
-    images: [faker.image.url()],
-    priceInCents: Number(faker.commerce.price({ min: 190, max: 490, dec: 0 })),
+  const productsList = []
+
+  for (let i = 0; i < 100; i++) {
+    productsList.push({
+      name: faker.commerce.productName(),
+      description: faker.commerce.productDescription(),
+      priceInCents: faker.number.int({ min: 1000, max: 10000 }),
+      images: [faker.image.url()],
+      categoryId: faker.helpers.arrayElement(createdCategories).id,
+    })
   }
+
+  return productsList
 }
 
 const availableProducts = await db
   .insert(products)
-  .values([
-    generateProduct(),
-    generateProduct(),
-    generateProduct(),
-    generateProduct(),
-    generateProduct(),
-    generateProduct(),
-    generateProduct(),
-    generateProduct(),
-    generateProduct(),
-    generateProduct(),
-    generateProduct(),
-    generateProduct(),
-  ])
+  .values(generateProduct())
   .returning()
 
 console.log(chalk.greenBright('Product seeds'))
@@ -157,6 +150,6 @@ await db.insert(orderItems).values(orderItemsToInsert)
 
 console.log(chalk.greenBright('Orders seeds'))
 
-console.log(chalk.greenBright('Database seeded successfuilly'))
+console.log(chalk.greenBright('Database seeded successfully'))
 
 process.exit()

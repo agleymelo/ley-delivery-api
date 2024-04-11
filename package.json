@@ -12,7 +12,7 @@
     "lint": "eslint --fix src --ext .ts,.tsx",
     "generate": "drizzle-kit generate:pg",
     "migrate": "src/database/migrate.ts",
-    "seed": "src/database/seed.ts",
+    "seed": "tsx src/database/seed.ts",
     "studio": "drizzle-kit studio"
   },
   "dependencies": {
@@ -23,6 +23,7 @@
     "@fastify/static": "7.0.3",
     "@paralleldrive/cuid2": "^2.2.2",
     "bcrypt": "^5.1.1",
+    "dayjs": "1.11.10",
     "dotenv": "16.4.5",
     "drizzle-orm": "^0.30.7",
     "fastify": "^4.26.2",

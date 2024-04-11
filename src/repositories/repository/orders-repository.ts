@@ -1,65 +1,56 @@
 import type { Order } from '../../dtos/orders/order'
 
+export type OrderStatus =
+  | 'pending'
+  | 'processing'
+  | 'delivering'
+  | 'delivered'
+  | 'cancelled'
+
+export type OrderItems = {
+  id: string
+  priceInCents: number
+  quantity: number
+  product: {
+    name: string
+  }
+}
+
+export type FindOneOderByUserIdReply = {
+  order: Pick<Order, 'id' | 'status' | 'totalInCents' | 'created_at'>
+  customer: {
+    name: string | undefined
+    email: string | undefined
+    phone: string | null | undefined
+  }
+  orderItems: OrderItems[] | undefined
+}
+
+export type FindAllOrdersReply = {
+  orders: Order[]
+  meta: {
+    pageIndex: number
+    perPage: number
+    total: number
+  }
+}
+
 export interface OrdersRepository {
   findOneOrderByUserId: (
     orderId: string,
     userId: string,
-  ) => Promise<{
-    order: Pick<Order, 'id' | 'status' | 'totalInCents' | 'created_at'>
-    customer: {
-      name: string | undefined
-      email: string | undefined
-      phone: string | null | undefined
-    }
-    orderItems:
-      | [
-          {
-            id: string
-            priceInCents: number
-            quantity: number
-            product: {
-              name: string
-            }
-          },
-        ]
-      | undefined
-  }>
+  ) => Promise<FindOneOderByUserIdReply>
   findById(orderId: string): Promise<Order | null>
-  updateStatus(
-    orderId: string,
-    status: 'pending' | 'processing' | 'delivering' | 'delivered' | 'cancelled',
-  ): Promise<void>
+
   findAllOrders(
     customerName: string,
     orderId: string,
-    status:
-      | 'pending'
-      | 'processing'
-      | 'delivering'
-      | 'delivered'
-      | 'cancelled'
-      | undefined
-      | '',
+    status: OrderStatus | undefined | '',
     pageIndex: number,
-  ): Promise<{
-    orders: Order[]
-    meta: {
-      pageIndex: number
-      perPage: number
-      total: number
-    }
-  } | null>
+  ): Promise<FindAllOrdersReply | null>
   findAllOrdersByUserId(
     userId: string,
-
-    status:
-      | 'pending'
-      | 'processing'
-      | 'delivering'
-      | 'delivered'
-      | 'cancelled'
-      | undefined
-      | '',
+    status: OrderStatus | undefined | '',
     pageIndex: number,
   ): Promise<{
     orders: Order[]
@@ -69,4 +60,5 @@ export interface OrdersRepository {
       total: number
     }
   }>
+  updateStatus(orderId: string, status: OrderStatus): Promise<void>
 }

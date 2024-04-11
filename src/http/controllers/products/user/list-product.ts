@@ -9,7 +9,7 @@ export async function listProduct(
 ) {
   const listProductParamsSchema = z.object({
     categoryId: z.string().optional(),
-    pageIndex: z.number(),
+    pageIndex: z.string().transform(Number),
   })
 
   const { categoryId, pageIndex } = listProductParamsSchema.parse(request.query)

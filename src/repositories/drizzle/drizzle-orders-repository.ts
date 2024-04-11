@@ -1,34 +1,19 @@
-import { and, count, desc, eq, getTableColumns, ilike, sql } from 'drizzle-orm'
+import { and, count, desc, eq, ilike, sql } from 'drizzle-orm'
 
 import { db } from '../../database/connection'
 import { orders, users } from '../../database/schema'
 import type { Order } from '../../dtos/orders/order'
-import type { OrdersRepository } from '../repository/orders-repository'
+import type {
+  FindOneOderByUserIdReply,
+  OrderStatus,
+  OrdersRepository,
+} from '../repository/orders-repository'
 
 export class DrizzleOrdersRepository implements OrdersRepository {
   async findOneOrderByUserId(
     orderId: string,
     userId: string,
-  ): Promise<{
-    order: Pick<Order, 'id' | 'status' | 'totalInCents' | 'created_at'>
-    customer: {
-      name: string | undefined
-      email: string | undefined
-      phone: string | null | undefined
-    }
-    orderItems:
-      | [
-          {
-            id: string
-            priceInCents: number
-            quantity: number
-            product: {
-              name: string
-            }
-          },
-        ]
-      | undefined
-  }> {
+  ): Promise<FindOneOderByUserIdReply> {
     const order = await db.query.orders.findFirst({
       columns: {
         id: true,
@@ -100,13 +85,7 @@ export class DrizzleOrdersRepository implements OrdersRepository {
 
   async findAllOrdersByUserId(
     userId: string,
-    status:
-      | 'pending'
-      | 'processing'
-      | 'delivering'
-      | 'delivered'
-      | 'cancelled'
-      | undefined,
+    status: OrderStatus | undefined,
     pageIndex: number,
   ): Promise<{
     orders: Order[]
@@ -131,15 +110,15 @@ export class DrizzleOrdersRepository implements OrdersRepository {
               status ? eq(orders.status, status) : undefined,
             ),
           )
-          .offset(pageIndex * 10)
-          .limit(10),
+          .offset(pageIndex * 9)
+          .limit(9),
       ])
 
     return {
       orders: allOrderUsers,
       meta: {
         pageIndex,
-        perPage: 10,
+        perPage: 9,
         total: amountOfOrdersOfUser,
       },
     }
@@ -158,7 +137,7 @@ export class DrizzleOrdersRepository implements OrdersRepository {
   async findAllOrders(
     customerName: string,
     orderId: string,
-    status: 'pending' | 'processing' | 'delivering' | 'delivered' | 'cancelled',
+    status: OrderStatus | undefined | '',
     pageIndex: number,
   ): Promise<{
     orders: Order[]
@@ -193,8 +172,8 @@ export class DrizzleOrdersRepository implements OrdersRepository {
       db
         .select()
         .from(baseQuery.as('baseQuery'))
-        .offset(pageIndex * 10)
-        .limit(10)
+        .offset(pageIndex * 9)
+        .limit(9)
         .orderBy((fields) => {
           return [
             sql`CASE ${fields.status}
@@ -221,10 +200,7 @@ export class DrizzleOrdersRepository implements OrdersRepository {
     }
   }
 
-  async updateStatus(
-    orderId: string,
-    status: 'pending' | 'processing' | 'delivering' | 'delivered' | 'cancelled',
-  ) {
+  async updateStatus(orderId: string, status: OrderStatus) {
     await db.update(orders).set({ status }).where(eq(orders.id, orderId))
   }
 }
