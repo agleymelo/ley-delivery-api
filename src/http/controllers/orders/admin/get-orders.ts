@@ -1,7 +1,7 @@
-import type { FastifyReply, FastifyRequest } from 'fastify'
-import { z } from 'zod'
+import type { FastifyReply, FastifyRequest } from "fastify";
+import { z } from "zod";
 
-import { makeGetOrdersUseCase } from '../../../../use-cases/orders/factory/make-get-orders-use-case'
+import { makeGetOrdersUseCase } from "../../../../use-cases/orders/factory/make-get-orders-use-case";
 
 export async function getOrders(request: FastifyRequest, reply: FastifyReply) {
   const showOrderDetailsUserParamsSchema = z.object({
@@ -9,28 +9,30 @@ export async function getOrders(request: FastifyRequest, reply: FastifyReply) {
     customerName: z.optional(z.string()),
     status: z.optional(
       z.enum([
-        'pending',
-        'processing',
-        'delivering',
-        'delivered',
-        'cancelled',
-        '',
+        "pending",
+        "processing",
+        "delivering",
+        "delivered",
+        "cancelled",
+        "",
       ]),
     ),
     pageIndex: z.string().transform(Number),
-  })
+  });
 
   const { orderId, customerName, status, pageIndex } =
-    showOrderDetailsUserParamsSchema.parse(request.query)
+    showOrderDetailsUserParamsSchema.parse(request.query);
 
-  const getOrdersUseCase = makeGetOrdersUseCase()
+  const getOrdersUseCase = makeGetOrdersUseCase();
 
   const { results } = await getOrdersUseCase.execute({
-    orderId: orderId ?? '',
-    customerName: customerName ?? '',
-    status: status ?? '',
+    orderId: orderId ?? "",
+    customerName: customerName ?? "",
+    status: status ?? "",
     pageIndex: pageIndex ?? 0,
-  })
+  });
 
-  return reply.status(200).send({ results })
+  return reply
+    .status(200)
+    .send({ orders: results?.orders, meta: results?.meta });
 }

@@ -1,65 +1,76 @@
-import type { Order } from "../../dtos/orders/order";
+import type { Order } from '../../dtos/orders/order'
 
 export type OrderStatus =
-  | "pending"
-  | "processing"
-  | "delivering"
-  | "delivered"
-  | "cancelled";
+  | 'pending'
+  | 'processing'
+  | 'delivering'
+  | 'delivered'
+  | 'cancelled'
 
 export type OrderItems = {
-  id: string;
-  priceInCents: number;
-  quantity: number;
+  id: string
+  priceInCents: number
+  quantity: number
   product: {
-    name: string;
-  };
-};
+    name: string
+  }
+}
+
+export type OrderItemsCreateOrder = {
+  id: string
+  totalInCents: number
+  quantity: number
+}
 
 export type FindOneOderByUserIdReply = {
-  order: Pick<Order, "id" | "status" | "totalInCents" | "created_at">;
+  order: Pick<Order, 'id' | 'status' | 'totalInCents' | 'created_at'>
   customer: {
-    name: string | undefined;
-    email: string | undefined;
-    phone: string | null | undefined;
-  };
-  orderItems: OrderItems[] | undefined;
-};
+    name: string | undefined
+    email: string | undefined
+    phone: string | null | undefined
+  }
+  orderItems: OrderItems[] | undefined
+}
 
 export type FindAllOrdersReply = {
-  orders: Order[];
+  orders: Order[]
   meta: {
-    pageIndex: number;
-    perPage: number;
-    total: number;
-  };
-};
+    pageIndex: number
+    perPage: number
+    total: number
+  }
+}
 
 export interface OrdersRepository {
   findOneOrderByUserId: (
     orderId: string,
     userId: string,
-  ) => Promise<FindOneOderByUserIdReply>;
-  findById(orderId: string): Promise<Order | null>;
+  ) => Promise<FindOneOderByUserIdReply>
+  findById(orderId: string): Promise<Order | null>
 
   findAllOrders(
     customerName: string,
     orderId: string,
-    status: OrderStatus | undefined | "",
+    status: OrderStatus | undefined | '',
     pageIndex: number,
-  ): Promise<FindAllOrdersReply | null>;
+  ): Promise<FindAllOrdersReply | null>
   findAllOrdersByUserId(
     userId: string,
-    status: OrderStatus | undefined | "",
+    status: OrderStatus | undefined | '',
     pageIndex: number,
   ): Promise<{
-    orders: Order[];
+    orders: Order[]
     meta: {
-      pageIndex: number;
-      perPage: number;
-      total: number;
-    };
-  }>;
-  updateStatus(orderId: string, status: OrderStatus): Promise<void>;
-  findOrderDetailsUser(orderId: string): Promise<FindOneOderByUserIdReply>;
+      pageIndex: number
+      perPage: number
+      total: number
+    }
+  }>
+  updateStatus(orderId: string, status: OrderStatus): Promise<void>
+  findOrderDetailsUser(orderId: string): Promise<FindOneOderByUserIdReply>
+  createOrder(
+    userId: string,
+    totalInCents: number,
+    orderItemsCreatedOrder: OrderItemsCreateOrder[],
+  ): Promise<void>
 }

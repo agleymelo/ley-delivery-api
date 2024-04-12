@@ -1,38 +1,39 @@
-import dayjs from 'dayjs'
-import type { MetricsRepository } from '../../../repositories/repository/metrics-repository'
+import dayjs from "dayjs";
+import type { MetricsRepository } from "../../../repositories/repository/metrics-repository";
 
 export class GetDayOrdersAmountUseCase {
   constructor(private metricsRepository: MetricsRepository) {}
 
   async execute() {
-    const today = dayjs()
-    const lastMonth = today.subtract(1, 'month')
-    const startOfLastMonth = lastMonth.startOf('month')
+    const today = dayjs();
+    const yesterday = today.subtract(1, "day");
+    const startOfYesterday = yesterday.startOf("day");
 
-    const ordersPerMonth = await this.metricsRepository.getCanceledMonthOrders(
-      startOfLastMonth.toDate(),
-    )
+    const yesterdayWithMonthAndYear = yesterday.format("YYYY-MM-DD");
+    const todayWithMonthAndYear = today.format("YYYY-MM-DD");
 
-    const currentMonthWithYear = today.format('YYYY-MM')
-    const lastMonthWithYear = lastMonth.format('YYYY-MM')
+    const ordersPerDay = await this.metricsRepository.getDayOrdersAmount(
+      startOfYesterday.toDate(),
+    );
 
-    const currentMonthOrdersAmount = ordersPerMonth.find((orderPerMonth) => {
-      return orderPerMonth.monthWithYear === currentMonthWithYear
-    })
-    const lastMonthOrdersAmount = ordersPerMonth.find((orderPerMonth) => {
-      return orderPerMonth.monthWithYear === lastMonthWithYear
-    })
+    const todayOrdersAmount = ordersPerDay.find((orderInDay) => {
+      return orderInDay.dayWithMonthAndYear === todayWithMonthAndYear;
+    });
 
-    const diffFromLastMonth =
-      currentMonthOrdersAmount && lastMonthOrdersAmount
-        ? (currentMonthOrdersAmount.amount * 100) / lastMonthOrdersAmount.amount
-        : null
+    const yesterdayOrdersAmount = ordersPerDay.find((orderInDay) => {
+      return orderInDay.dayWithMonthAndYear === yesterdayWithMonthAndYear;
+    });
+
+    const diffFromYesterday =
+      yesterdayOrdersAmount && todayOrdersAmount
+        ? (todayOrdersAmount.amount * 100) / yesterdayOrdersAmount.amount
+        : null;
 
     return {
-      amount: currentMonthOrdersAmount?.amount,
-      diffFromLastMonth: diffFromLastMonth
-        ? Number((diffFromLastMonth - 100).toFixed(2))
+      amount: todayOrdersAmount?.amount ?? 0,
+      diffFromYesterday: diffFromYesterday
+        ? Number((diffFromYesterday - 100).toFixed(2))
         : 0,
-    }
+    };
   }
 }
