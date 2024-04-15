@@ -38,6 +38,8 @@ export class UpdatePhotoProductUseCase {
 
     await this.productsRepository.updateProduct(product)
 
+    await this.uploadFilesRepository.deleteFile(filesName[0])
+
     return { product }
   }
 }

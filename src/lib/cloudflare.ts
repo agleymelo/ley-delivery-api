@@ -6,6 +6,6 @@ export const r2 = new S3Client({
   endpoint: env.CLOUDFLARE_ENDPOINT,
   credentials: {
     accessKeyId: env.CLOUDFLARE_ACCESS_KEY_ID,
-    secretAccessKey: env.CLOUDFLARE_ACCESS_KEY_ID,
+    secretAccessKey: env.CLOUDFLARE_SECRET_ACCESS_KEY,
   },
 })

@@ -5,7 +5,7 @@ import { UserAlreadyExistsError } from '../../../use-cases/errors/user-already-e
 import { makeUpdateUserProfileUseCase } from '../../../use-cases/users/factory/make-update-user-profile-use-case'
 import { OldPasswordIsRequiredError } from '../../../use-cases/errors/old-password-is-required-error'
 
-export async function update(request: FastifyRequest, reply: FastifyReply) {
+export async function updateUser(request: FastifyRequest, reply: FastifyReply) {
   const updateUserBodySchema = z.object({
     name: z.string().optional(),
     phone: z.string().optional(),

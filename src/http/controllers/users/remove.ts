@@ -3,7 +3,7 @@ import type { FastifyReply, FastifyRequest } from 'fastify'
 import { makeDeleteUserUseCase } from '../../../use-cases/users/factory/make-delete-user-use-case'
 import { ResourceNotFoundError } from '../../../use-cases/errors/resource-not-found-error'
 
-export async function remove(request: FastifyRequest, reply: FastifyReply) {
+export async function removeUser(request: FastifyRequest, reply: FastifyReply) {
   const userId = request.user.sub
 
   try {

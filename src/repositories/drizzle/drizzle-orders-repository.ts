@@ -149,8 +149,6 @@ export class DrizzleOrdersRepository implements OrdersRepository {
       total: number
     }
   }> {
-    // const orderTableColumns = getTableColumns(orders)
-
     const baseQuery = db
       .select({
         orderId: orders.id,

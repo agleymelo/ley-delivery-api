@@ -3,7 +3,7 @@ import type { FastifyReply, FastifyRequest } from 'fastify'
 import { makeGetProfileUserUseCase } from '../../../use-cases/users/factory/make-get-profile-use-case'
 import { ResourceNotFoundError } from '../../../use-cases/errors/resource-not-found-error'
 
-export async function profile(request: FastifyRequest, reply: FastifyReply) {
+export async function getProfile(request: FastifyRequest, reply: FastifyReply) {
   const userId = request.user.sub
 
   try {
