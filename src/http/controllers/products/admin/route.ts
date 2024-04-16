@@ -26,7 +26,7 @@ export async function productAdminRoutes(app: FastifyInstance) {
 
   app.patch(
     '/:productId/photo',
-    { preHandler: upload.single('photo') },
+    { preHandler: upload.array('photo', 4) },
     updatePhotoProduct,
   )
 }

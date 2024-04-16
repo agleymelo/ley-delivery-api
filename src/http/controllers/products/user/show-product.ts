@@ -22,10 +22,6 @@ export async function showProduct(
       productId,
     })
 
-    console.log(product.id)
-    console.log(product.name)
-    console.log(product.image)
-
     return reply.status(200).send({
       product: {
         ...product,

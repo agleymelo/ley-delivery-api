@@ -9,6 +9,7 @@ export async function updatePhotoProduct(
   request: FastifyRequest,
   reply: FastifyReply,
 ) {
+  console.log(request.file)
   const updateProductParamsSchema = z.object({
     productId: z.string(),
   })

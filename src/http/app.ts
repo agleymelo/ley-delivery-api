@@ -64,7 +64,7 @@ app.setErrorHandler((error, _, reply) => {
   // if (env.NODE_ENV !== 'production') {
   //   console.error(error)
   // } else {
-  //   // TODO: Here we sould log to an external toll like DataDog/NewRelic/Sentry
+  //   // TODO: Here we should log to an external toll like DataDog/NewRelic/Sentry
   // }
 
   return reply.status(500).send({
