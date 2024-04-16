@@ -87,22 +87,22 @@ Contributions are welcome! If you'd like to contribute to this project, follow t
 1. Fork this repository.
 
 2. Create a branch for your feature:
-git checkout -b feature/my-feature
 
-markdown
-Copy code
+```bash
+git checkout -b feature/my-feature
+```
+
 
 3. Make your changes and commit them:
+```bash
 git commit -m "Add my feature"
+```
 
-css
-Copy code
 
 4. Push to the remote repository:
+```bash
 git push origin feature/my-feature
-
-csharp
-Copy code
+```
 
 5. Open a pull request in this repository. Describe your changes and wait for feedback.
 
