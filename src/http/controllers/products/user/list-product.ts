@@ -2,6 +2,7 @@ import type { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
 import { ResourceNotFoundError } from '../../../../use-cases/errors/resource-not-found-error'
 import { makeListProductsUseCase } from '../../../../use-cases/products/factory/make-list-products-use-case'
+import { env } from '../../../../env/env'
 
 export async function listProduct(
   request: FastifyRequest,
@@ -25,9 +26,13 @@ export async function listProduct(
     const formattedProducts = result.products.map((product) => {
       return {
         ...product,
-        image: product.image ? `${product.image}` : null,
+        image: product.image
+          ? `${env.CLOUDFLARE_URL_STORAGE}/${product.image}`
+          : null,
       }
     })
+
+    console.log(formattedProducts)
 
     return reply
       .status(200)
