@@ -6,7 +6,7 @@ import chalk from 'chalk'
 
 import { env } from '../env/env'
 
-const connection = postgres(env.DATABASE_URL, { max: 1 })
+const connection = postgres(env.DATABASE_URL, { max: 1, ssl: 'allow' })
 const db = drizzle(connection)
 
 await migrate(db, { migrationsFolder: 'drizzle' })
