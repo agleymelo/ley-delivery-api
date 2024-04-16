@@ -121,7 +121,7 @@ export class DrizzleProductsRepository implements ProductsRepository {
     name,
     description,
     priceInCents,
-    images,
+    image,
     categoryId,
   }: Product): Promise<Product> {
     const [product] = await db
@@ -130,7 +130,7 @@ export class DrizzleProductsRepository implements ProductsRepository {
         name,
         description,
         priceInCents,
-        images,
+        image,
         categoryId,
       })
       .where(eq(products.id, id))

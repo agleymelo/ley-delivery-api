@@ -5,7 +5,7 @@ type CreateProductUseCaseResponse = {
   name: string
   description?: string
   priceInCents: number
-  images: string[]
+  images: string
   categoryId: string
 }
 

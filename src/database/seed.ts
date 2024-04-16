@@ -1,12 +1,11 @@
 /* eslint-disable camelcase */
 /* eslint-disable drizzle/enforce-delete-with-where */
 import { faker } from '@faker-js/faker'
-import chalk from 'chalk'
 import { hash } from 'bcrypt'
+import chalk from 'chalk'
 
-import { categories, orderItems, orders, products, users } from './schema'
 import { db } from './connection'
-import { createId } from '@paralleldrive/cuid2'
+import { categories, orderItems, orders, products, users } from './schema'
 
 // Reset database
 
@@ -21,7 +20,7 @@ console.log(chalk.yellow('Database reset'))
 // Seed database
 
 // create customer
-const [customer_one] = await db
+await db
   .insert(users)
   .values({
     name: faker.person.fullName(),
@@ -32,7 +31,7 @@ const [customer_one] = await db
   })
   .returning()
 
-const [customer_two] = await db
+await db
   .insert(users)
   .values({
     name: faker.person.fullName(),

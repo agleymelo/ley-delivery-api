@@ -13,11 +13,6 @@ export type GetOrdersPerMonthReply = {
   amount: number
 }
 
-type PopularProducts = {
-  product: string | null
-  amount: number
-}
-
 export type GetPopularProductsReply = {
   product: string | null
   amount: number
