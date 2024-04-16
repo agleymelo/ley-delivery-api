@@ -22,9 +22,16 @@ export async function listProduct(
       pageIndex,
     })
 
+    const formattedProducts = result.products.map((product) => {
+      return {
+        ...product,
+        image: product.image ? `${product.image}` : null,
+      }
+    })
+
     return reply
       .status(200)
-      .send({ products: result.products, meta: result.meta })
+      .send({ products: formattedProducts, meta: result.meta })
   } catch (err) {
     if (err instanceof ResourceNotFoundError) {
       return reply.status(404).send({ message: err.message })
