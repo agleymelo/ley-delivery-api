@@ -1,7 +1,8 @@
 import { resolve, dirname } from 'node:path'
 import { randomBytes } from 'node:crypto'
+import { fileURLToPath } from 'node:url'
+
 import multer from 'fastify-multer'
-import { fileURLToPath } from 'url'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)

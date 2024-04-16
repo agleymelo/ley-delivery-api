@@ -1,4 +1,4 @@
-import { and, count, eq, ilike } from 'drizzle-orm'
+import { and, count, desc, eq, ilike } from 'drizzle-orm'
 
 import { db } from '../../database/connection'
 import { products } from '../../database/schema'
@@ -26,7 +26,8 @@ export class DrizzleProductsRepository implements ProductsRepository {
         .from(products)
         .where(categoryId ? eq(products.categoryId, categoryId) : undefined)
         .limit(9)
-        .offset(pageIndex * 9),
+        .offset(pageIndex * 9)
+        .orderBy(desc(products.created_at)),
     ])
 
     return {
