@@ -11,7 +11,7 @@ export async function createProduct(
     name: z.string(),
     description: z.string().optional(),
     priceInCents: z.number(),
-    images: z.array(z.string()),
+    images: z.string(),
     categoryId: z.string(),
   })
 

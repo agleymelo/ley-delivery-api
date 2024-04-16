@@ -4,7 +4,7 @@ import { ResourceNotFoundError } from '../../errors/resource-not-found-error'
 
 type UpdatePhotoProductUseCaseResponse = {
   productId: string
-  filesName: string[]
+  fileName: string
 }
 
 export class UpdatePhotoProductUseCase {
@@ -13,32 +13,24 @@ export class UpdatePhotoProductUseCase {
     private uploadFilesRepository: UploadFilesRepository,
   ) {}
 
-  async execute({ productId, filesName }: UpdatePhotoProductUseCaseResponse) {
+  async execute({ productId, fileName }: UpdatePhotoProductUseCaseResponse) {
     const product = await this.productsRepository.findProductById(productId)
 
     if (!product) {
       throw new ResourceNotFoundError()
     }
 
-    if (product.images) {
-      product.images.map(async (image) => {
-        await this.uploadFilesRepository.deleteFile(image)
-      })
+    if (product.image) {
+      await this.uploadFilesRepository.deleteFile(product.image)
     }
 
-    const newImageProduct = await Promise.all(
-      filesName.map(async (file) => {
-        await this.uploadFilesRepository.saveFile(file)
+    await this.uploadFilesRepository.saveFile(fileName)
 
-        return file
-      }),
-    )
+    product.image = fileName
 
-    product.images = newImageProduct
+    console.log(product)
 
     await this.productsRepository.updateProduct(product)
-
-    await this.uploadFilesRepository.deleteFile(filesName[0])
 
     return { product }
   }

@@ -1,7 +1,7 @@
 import type { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
-import { UserAlreadyExistsError } from '../../../use-cases/errors/user-already-exists-error'
 import { makeAuthenticateUseUseCase } from '../../../use-cases/users/factory/make-authenticate-use-case'
+import { InvalidCredentialsError } from '../../../use-cases/errors/invalid-credentials-erros'
 
 export async function authenticate(
   request: FastifyRequest,
@@ -38,7 +38,7 @@ export async function authenticate(
       .status(200)
       .send({ user: { ...user, password_hash: null }, token })
   } catch (err) {
-    if (err instanceof UserAlreadyExistsError) {
+    if (err instanceof InvalidCredentialsError) {
       return reply.status(409).send({ message: err.message })
     }
   }

@@ -12,7 +12,7 @@ export const products = pgTable('products', {
   name: text('name').notNull(),
   description: text('description'),
   priceInCents: integer('price_in_cents'),
-  images: text('images').array(),
+  image: text('images'),
 
   categoryId: text('category_id').references(() => categories.id, {
     onDelete: 'set null',

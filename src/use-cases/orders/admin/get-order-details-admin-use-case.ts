@@ -1,20 +1,20 @@
-import type { OrdersRepository } from "../../../repositories/repository/orders-repository";
-import { ResourceNotFoundError } from "../../errors/resource-not-found-error";
+import type { OrdersRepository } from '../../../repositories/repository/orders-repository'
+import { ResourceNotFoundError } from '../../errors/resource-not-found-error'
 
 type GetOrderDetailsAdminUseCasRequest = {
-  orderId: string;
-};
+  orderId: string
+}
 
 export class GetOrderDetailsAdminUseCas {
   constructor(private ordersRepository: OrdersRepository) {}
 
   async execute({ orderId }: GetOrderDetailsAdminUseCasRequest) {
-    const order = await this.ordersRepository.findOrderDetailsUser(orderId);
+    const order = await this.ordersRepository.findOrderDetailsUser(orderId)
 
     if (!order) {
-      throw new ResourceNotFoundError();
+      throw new ResourceNotFoundError()
     }
 
-    return { order };
+    return { order }
   }
 }

@@ -20,7 +20,7 @@ describe('Update Category Use Case', () => {
   it('should be able to update a specific category', async () => {
     const createdCategory = await categoriesRepository.create({
       name: 'Coffee',
-      status: "active",
+      status: 'active',
     })
 
     const { category } = await sut.execute({

@@ -3,7 +3,7 @@ export type Product = {
   name: string
   description?: string
   priceInCents: number
-  images: string[]
+  image: string
   categoryId: string
   created_at: Date | null
   updated_at: Date | null
